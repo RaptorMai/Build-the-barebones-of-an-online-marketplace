@@ -12,8 +12,9 @@ from rest_framework import status
 
 @api_view(["GET"])
 def add_to_cart(request, p_id):
-    user = authenticate(request, username=request.GET["username"], password=request.GET["username"])
-    login(request, user)
+    user = authenticate(request, username=request.GET["username"], password=request.GET["password"])
+    print(request.GET["username"], request.GET["password"])
+    print(user)
     try:
         product = Product.objects.get(pk=p_id)
         quantity = int(float(request.GET["quantity"]))
@@ -48,8 +49,7 @@ def add_to_cart(request, p_id):
 
 @api_view(["GET"])
 def check_out(request):
-    user = authenticate(request, username=request.GET["username"], password=request.GET["username"])
-    login(request, user)
+    user = authenticate(request, username=request.GET["username"], password=request.GET["password"])
     try:
         cart = Cart.objects.get(customer=user)
         final_cart = {}
@@ -70,8 +70,9 @@ def check_out(request):
 
 @api_view(["GET"])
 def remove_item(request, p_id):
-    user = authenticate(request, username=request.GET["username"], password=request.GET["username"])
-    login(request, user)
+    user = authenticate(request, username=request.GET["username"], password=request.GET["password"])
+    print(request.GET["username"], request.GET["password"])
+    print(user)
     try:
         product = Product.objects.get(pk=p_id)
     except ObjectDoesNotExist:
