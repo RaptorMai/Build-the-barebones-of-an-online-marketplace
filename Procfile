@@ -1,0 +1,1 @@
+web: gunicorn shopify_back.wsgi
