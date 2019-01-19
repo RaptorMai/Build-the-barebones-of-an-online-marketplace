@@ -25,7 +25,7 @@ SECRET_KEY = '@995ney53c&b@5(rry6qr7rq8n9b=uf!32wb%9(h-sn&r5)bmg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://marcomaishopify.herokuapp.com/']
+ALLOWED_HOSTS = ['marcomaishopify.herokuapp.com/']
 
 
 # Application definition
