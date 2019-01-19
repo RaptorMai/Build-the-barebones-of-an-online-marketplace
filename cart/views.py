@@ -11,8 +11,9 @@ from django.db import transaction
 from rest_framework import status
 
 @api_view(["GET"])
-@login_required(login_url='/ask_login')
 def add_to_cart(request, p_id):
+    user = authenticate(request, username=request.GET["username"], password=request.GET["username"])
+    login(request, user)
     try:
         product = Product.objects.get(pk=p_id)
         quantity = int(float(request.GET["quantity"]))
@@ -25,9 +26,9 @@ def add_to_cart(request, p_id):
         raise NotFound("Product {0} is not found, please try another product".format(p_id))
 
     try:
-        cart = Cart.objects.get(customer=request.user)
+        cart = Cart.objects.get(customer=user)
     except ObjectDoesNotExist:
-        cart = Cart.objects.create(customer=request.user)
+        cart = Cart.objects.create(customer=user)
 
     try:
         cart_item = Cart_items.objects.get(cart=cart, product=product)
@@ -46,10 +47,11 @@ def add_to_cart(request, p_id):
 
 
 @api_view(["GET"])
-@login_required(login_url='/ask_login')
 def check_out(request):
+    user = authenticate(request, username=request.GET["username"], password=request.GET["username"])
+    login(request, user)
     try:
-        cart = Cart.objects.get(customer=request.user)
+        cart = Cart.objects.get(customer=user)
         final_cart = {}
         for item in Cart_items.objects.filter(cart=cart):
             with transaction.atomic():
@@ -67,14 +69,15 @@ def check_out(request):
 
 
 @api_view(["GET"])
-@login_required(login_url='/ask_login')
 def remove_item(request, p_id):
+    user = authenticate(request, username=request.GET["username"], password=request.GET["username"])
+    login(request, user)
     try:
         product = Product.objects.get(pk=p_id)
     except ObjectDoesNotExist:
         raise NotFound("The product you are trying to remove is not found")
     try:
-        cart = Cart.objects.get(customer=request.user)
+        cart = Cart.objects.get(customer=user)
         cart_item = Cart_items.objects.filter(cart=cart, product=product).first()
         if cart_item:
             quantity = int(float(request.GET["quantity"]))
