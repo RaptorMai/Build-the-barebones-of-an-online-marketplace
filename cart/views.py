@@ -1,12 +1,14 @@
 from .models import Cart, Cart_items
 from rest_framework.decorators import api_view
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
+from rest_framework.response import Response
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from products.models import Product
 from rest_framework.exceptions import NotFound, ParseError
 from django.db import transaction
+from rest_framework import status
 
 @api_view(["GET"])
 @login_required(login_url='/ask_login')
@@ -91,8 +93,11 @@ def remove_item(request, p_id):
     except ObjectDoesNotExist:
         raise NotFound("You don't have a cart, add something before remove")
 
+@api_view()
 def ask_login(request):
-    return HttpResponse("please go to /login to login as test_user")
+    content = "please go to /login to login as test_user"
+    return Response(content, status=status.HTTP_401_UNAUTHORIZED)
+
 
 def login_fake(request):
     user = authenticate(request, username = 'test_user', password='temp_password')
