@@ -1,6 +1,8 @@
 # Shopify Summer Intern Challenge 2019
 
 A Django REST API of the barebones of a an online marketplace  for Shopify 2019 summer intern challenge. 
+The Github link this challenge:  
+https://github.com/RaptorMai/Build-the-barebones-of-an-online-marketplace
 <br>
 <br>
 
