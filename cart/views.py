@@ -46,6 +46,18 @@ def add_to_cart(request, p_id):
 
     return JsonResponse({'Status': "Product {0} is added successfully to the shopping cart".format(p_id), "Cart":cur_cart})
 
+@api_view(["GET"])
+def show_cart(request):
+    user = authenticate(request, username=request.GET["username"], password=request.GET["password"])
+    try:
+        cart = Cart.objects.get(customer=user)
+        final_cart = {}
+        for item in Cart_items.objects.filter(cart=cart):
+            final_cart[item.product.title] = item.quantity
+        return JsonResponse({'Cart': final_cart})
+
+    except ObjectDoesNotExist:
+        raise NotFound("You don't have a cart, add something before check out")
 
 @api_view(["GET"])
 def check_out(request):

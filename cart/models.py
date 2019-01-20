@@ -7,9 +7,6 @@ from django.contrib.auth.models import User
 class Cart(models.Model):
     cart_id = models.AutoField(primary_key=True)
     customer = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    completed = models.BooleanField(default=False)
-    time_created = models.DateTimeField(auto_now_add=True)
-    time_completed = models.DateTimeField(blank=True, null=True)
     total = models.FloatField(default=0.00, validators=[MinValueValidator(0, "total can't be smaller than zero")])
 
     def __str__(self):
