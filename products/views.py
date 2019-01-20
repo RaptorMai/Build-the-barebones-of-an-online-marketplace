@@ -24,4 +24,4 @@ def product_purchase(request, p_id):
         product.save()
         return JsonResponse({'status': "Purchased Product {0} Successful".format(p_id)})
     else:
-        return JsonResponse({'status': "Purchased Product {0} Failed".format(p_id)})
+        return JsonResponse({'status': "Purchased Product {0} has zero inventory right now".format(p_id)})
